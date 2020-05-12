@@ -1,8 +1,8 @@
 export default {
-  input: 'src/index.js',
+  input: 'src/sanPlot.js',
   output: {
     format: 'cjs',
-    file: 'lib/index.js',
+    file: 'lib/sanPlot.js',
     exports: 'named',
   },
   external: ['is-any-array'],

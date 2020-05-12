@@ -1,10 +1,12 @@
-import { pdf as rayleighPdf}  from 'distributions-rayleigh-pdf';
+import rayleighPdf from 'distributions-rayleigh-pdf';
 import SplineInterpolator from 'spline-interpolator';
 import erfcinv from 'compute-erfcinv';
 
 export function simpleNormInv (data, options = {}) {
     const { magnitudeMode = false } = options;
 
+    if (!Array.isArray(data)) data = [ data ];
+    
     let from = 0;
     let to = 2;
     let step = 0.01
@@ -31,8 +33,7 @@ export function simpleNormInv (data, options = {}) {
             result[i] = -1 * Math.SQRT2 * erfcinv(2 * data[i]);
         }
     }
-
-    return result;
+    return result.length === 1 ? result[0] : result;
 }
 
 function sum(arr) {
@@ -44,7 +45,7 @@ function sum(arr) {
 }
 
 function createArray(from, to, step) {
-    let result = Float32Array(Math.abs( ( (from - to) / step ) + 1 ));
+    let result = new Float32Array(Math.abs( ( (from - to) / step ) + 1 ));
     for (let i = 0; i < result.length; i++) {
         result[i] = from + i * step;
     }

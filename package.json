@@ -2,8 +2,8 @@
   "name": "sanPlot",
   "version": "0.0.1",
   "description": "Noise level determination by SAN plot",
-  "main": "lib/index.js",
-  "module": "src/index.js",
+  "main": "lib/sanPlot.js",
+  "module": "src/sanPlot.js",
   "files": [
     "lib",
     "src"
@@ -55,6 +55,9 @@
     "rollup": "^2.3.2"
   },
   "dependencies": {
-    "distributions-rayleigh-pdf": "0.0.1"
+    "compute-erfcinv": "^3.0.1",
+    "distributions-normal-random": "0.0.1",
+    "distributions-rayleigh-pdf": "0.0.1",
+    "spline-interpolator": "^1.0.0"
   }
 }

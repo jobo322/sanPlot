@@ -21,12 +21,12 @@ export function simpleNormInv (data, options = {}) {
         for (let i = 0; i < yTraining.length; i++) {
             finalInput = xTraining[i] * factor;
             let inputValues = createArray(initialInput, finalInput, increment);
-            yTraining[i] = 1 - inc * sum(rayleighPdf(inputValues));
+            yTraining[i] = 1 - increment * sum(rayleighPdf(inputValues));
         }
         interp = new SplineInterpolator(xTraining, yTraining);
         for (let i = 0; i < result.length; i++) {
             let yValue = 2 * data[i];
-            result[i] = -1 * interp(yValue);
+            result[i] = -1 * interp.interpolate(yValue);
         }
     } else {
         for (let i = 0; i < result.length; i++) {
@@ -49,5 +49,5 @@ function createArray(from, to, step) {
     for (let i = 0; i < result.length; i++) {
         result[i] = from + i * step;
     }
-    return result;
+    return Array.from(result);
 }

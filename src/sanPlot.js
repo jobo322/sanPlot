@@ -3,6 +3,7 @@ import { simpleNormInv } from './simpleNormInv';
 
 export function getNoiseLevel(data, options = {}) {
   const {
+    mask,
     cutOff,
     refine = true,
     magnitudeMode = false,
@@ -10,8 +11,14 @@ export function getNoiseLevel(data, options = {}) {
     factorStd = 5,
     fixOffset = true,
   } = options;
+  
+  let input;
+  if (Array.isArray(mask) && mask.length === data.length) {
+    input = data.filter((_e, i) => !mask[i]);
+  } else {
+    input = data.slice();
+  }
 
-  let input = data.slice();
   if (scaleFactor > 1) {
     for (let i = 0; i < re.length; i++) {
       input[i] *= scaleFactor;
@@ -51,26 +58,10 @@ export function getNoiseLevel(data, options = {}) {
 
   let skyPoint = signPositive[0];
 
-  let firstNoisePositiveIndex = signPositive.findIndex(
-    (e) => e - initialNoiseLevelPositive === 0,
-  ); //@TODO: check if is it robust
-  let coordPointNoisePositive = [
-    firstNoisePositiveIndex,
-    initialNoiseLevelPositive,
-  ];
-  let coordPointNoiseNegRefined = coordPointNoisePositive;
-
   let initialNoiseLevelNegative;
   if (signNegative.length > 0) {
     initialNoiseLevelNegative =
       -1 * signNegative[Math.round(signNegative.length * (1 - cutOffDist))];
-    let firstNoiseNegativeIndex =
-      signNegative.length -
-      signNegative.findIndex((e) => e + initialNoiseLevelNegative === 0); //@TODO: check if is it robust
-    coordPointNoiseNegRefined = [
-      firstNoiseNegativeIndex,
-      initialNoiseLevelNegative,
-    ];
   } else {
     initialNoiseLevelNegative = 0;
   }
@@ -102,7 +93,6 @@ export function getNoiseLevel(data, options = {}) {
         ];
     }
   }
-
   let correctionFactor = -simpleNormInv(cutOffDist / 2, { magnitudeMode });
   initialNoiseLevelPositive = initialNoiseLevelPositive / correctionFactor;
   initialNoiseLevelNegative = initialNoiseLevelNegative / correctionFactor;
@@ -129,5 +119,5 @@ export function getNoiseLevel(data, options = {}) {
     noiseLevelNegative /= correctionFactor;
   }
 
-  return { positive: noiseLevelPositive, negative: noiseLevelNegative };
+  return { positive: noiseLevelPositive, negative: noiseLevelNegative, snr: skyPoint / noiseLevelPositive };
 }

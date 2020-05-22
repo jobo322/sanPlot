@@ -10,7 +10,7 @@ describe('phaseCorrection', () => {
     let re = new Float32Array(x.length);
     let factor = 1 / width / Math.sqrt(2 * Math.PI);
     let denominator = 0.5 / Math.pow(width, 2);
-    for (let i = re.length / ; i < re.length; i++) {
+    for (let i = re.length / 2; i < re.length; i++) {
       re[i] = factor * Math.exp(-Math.pow(x[i] - shift, 2) * denominator);
     }
     addNoise(re, 0, 1, 22);

@@ -2,6 +2,8 @@ import erfcinv from 'compute-erfcinv';
 import rayleighCdf from 'distributions-rayleigh-cdf';
 import SplineInterpolator from 'spline-interpolator';
 
+import { createArray } from './util/createArray';
+
 export function simpleNormInv(data, options = {}) {
   const { magnitudeMode = false } = options;
 
@@ -31,12 +33,4 @@ export function simpleNormInv(data, options = {}) {
     }
   }
   return result.length === 1 ? result[0] : result;
-}
-
-function createArray(from, to, step) {
-  let result = new Float32Array(Math.abs((from - to) / step + 1));
-  for (let i = 0; i < result.length; i++) {
-    result[i] = from + i * step;
-  }
-  return Array.from(result);
 }

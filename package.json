@@ -57,7 +57,7 @@
   "dependencies": {
     "compute-erfcinv": "^3.0.1",
     "distributions-normal-random": "0.0.1",
-    "distributions-rayleigh-pdf": "0.0.1",
+    "distributions-rayleigh-cdf": "0.0.1",
     "spline-interpolator": "^1.0.0"
   }
 }
